@@ -21,7 +21,9 @@ FROM build-env AS testrunner
 WORKDIR /tests
 COPY Interview.Tests/. Interview.Tests/.
 COPY Interview/. Interview/.
+COPY Interview/Data/. Interview.Tests/Data/.
 RUN dotnet build Interview.Tests/Interview.Tests.csproj
+RUN cat 
 ENTRYPOINT ["dotnet", "test", "Interview.Tests/Interview.Tests.csproj"]
 
 # Build runtime image

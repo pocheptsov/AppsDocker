@@ -7,7 +7,7 @@ namespace Interview.Tests
 {
     public class JsonRepositoryTest
     {
-        private IProductRepository repository = new ProductRepository("./Data/Products.json");
+        private IProductRepository repository = new ProductRepository("./Data/products.json");
         [Fact]
         public void TestAll()
         {

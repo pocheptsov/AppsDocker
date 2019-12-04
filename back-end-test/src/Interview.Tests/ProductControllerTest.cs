@@ -9,7 +9,7 @@ namespace Interview.Tests
     public class ProductControllerTest
     {
         private ProductController controller =
-            new ProductController(new ProductService(new ProductRepository("./Data/Products.json")));
+            new ProductController(new ProductService(new ProductRepository("./Data/products.json")));
 
         [Fact]
         public void TestGet()
