@@ -1,12 +1,14 @@
 # Useful commands
+# run from src folder
 # $ docker build --rm -t interview:0.1 .; docker rm -f interview; docker run --env ASPNETCORE_ENVIRONMENT=Development --rm -p 8080:80 --name interview interview:0.1
 # $ docker build --rm -t interview:0.1 .
 # $ docker rm -f interview
 # $ docker run --env ASPNETCORE_ENVIRONMENT=Development --rm -p 8080:80 --name interview interview:0.1
 # Tests
-# $ docker build --target testrunner -t interview:test .
-# $ docker run --rm  interview:test
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+# $ docker build --target test -t interview:test .; docker run --rm  interview:test
+# $ docker build --target test -t interview:test .
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
@@ -17,13 +19,10 @@ RUN DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0 dotnet restore
 COPY Interview ./
 RUN dotnet publish -c Debug -o out
 
-FROM build-env AS testrunner
+FROM build AS test
 WORKDIR /tests
-COPY Interview.Tests/. Interview.Tests/.
-COPY Interview/. Interview/.
-COPY Interview/Data/. Interview.Tests/Data/.
+COPY ./ ./
 RUN dotnet build Interview.Tests/Interview.Tests.csproj
-RUN cat 
 ENTRYPOINT ["dotnet", "test", "Interview.Tests/Interview.Tests.csproj"]
 
 # Build runtime image
