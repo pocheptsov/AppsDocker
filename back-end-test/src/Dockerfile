@@ -22,7 +22,7 @@ RUN dotnet publish -c Debug -o out
 FROM build AS test
 WORKDIR /tests
 COPY ./ ./
-RUN dotnet build Interview.Tests/Interview.Tests.csproj
+RUN DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0 dotnet build Interview.Tests/Interview.Tests.csproj
 ENTRYPOINT ["dotnet", "test", "Interview.Tests/Interview.Tests.csproj"]
 
 # Build runtime image
