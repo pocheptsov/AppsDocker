@@ -1,4 +1,9 @@
-Data/*
-!Data/.gitkeep 
-Logs/*
-!Logs/.gitkeep 
+/build/
+*.suo
+*.user
+bin/
+obj/
+Debug/
+Release/
+.vs
+.DS_Store
