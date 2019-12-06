@@ -1,14 +1,12 @@
-# Useful commands (Run from src folder)
-
-# Build run
-# docker build --rm -t interview:0.1 .; docker rm -f interview; docker run --env ASPNETCORE_ENVIRONMENT=Development --rm -p 8080:80 --name interview interview:0.1
-# docker build --rm -t interview:0.1 .
-# docker rm -f interview
-# docker run --env ASPNETCORE_ENVIRONMENT=Development --rm -p 8080:80 --name interview interview:0.1
-
+# Useful commands
+# run from src folder
+# $ docker build --rm -t interview:0.1 .; docker rm -f interview; docker run --env ASPNETCORE_ENVIRONMENT=Development --rm -p 8080:80 --name interview interview:0.1
+# $ docker build --rm -t interview:0.1 .
+# $ docker rm -f interview
+# $ docker run --env ASPNETCORE_ENVIRONMENT=Development --rm -p 8080:80 --name interview interview:0.1
 # Tests
-# docker build --target test -t interview:test .; docker run --rm --name interview_test interview:test
-# docker build --target test -t interview:test .
+# $ docker build --target test -t interview:test .; docker run --rm --name interview_test interview:test
+# $ docker build --target test -t interview:test .
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /app
@@ -24,7 +22,6 @@ RUN dotnet publish -c Debug -o out
 FROM build AS test
 RUN apt update && \
     apt -y install unzip && \
-    apt -y install procps && \
     curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /vsdbg
 WORKDIR /tests
 COPY ./ ./
@@ -35,7 +32,6 @@ ENTRYPOINT ["dotnet", "test", "Interview.Tests/Interview.Tests.csproj"]
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 RUN apt update && \
     apt -y install unzip && \
-    apt -y install procps && \
     curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /vsdbg
 WORKDIR /app
 COPY --from=build /app/out .
